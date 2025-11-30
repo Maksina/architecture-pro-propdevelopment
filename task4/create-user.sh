@@ -5,16 +5,14 @@ set -e
 CERT_DIR="k8s-users"
 CLUSTER_NAME="minikube"
 
-echo ">>> Создание директории для сертификатов..."
 mkdir -p "$CERT_DIR"
 
 create_user() {
   local username=$1
-  echo ">>> Создание пользователя: $username"
+  echo "Создание пользователя: $username"
 
   openssl genrsa -out "$CERT_DIR/$username.key" 2048
 
-  # Важно: // вместо / в -subj
   openssl req -new \
     -key "$CERT_DIR/$username.key" \
     -out "$CERT_DIR/$username.csr" \
@@ -40,14 +38,13 @@ create_user() {
   echo
 }
 
-# Проверка Minikube CA
 if [ ! -f ~/.minikube/ca.crt ] || [ ! -f ~/.minikube/ca.key ]; then
-  echo "❌ Minikube CA не найден. Запустите: minikube start"
+  echo "Minikube CA не найден. Запустите: minikube start"
   exit 1
 fi
 
 if ! kubectl cluster-info >/dev/null 2>&1; then
-  echo "❌ Kubectl не подключается к кластеру. Запустите Minikube."
+  echo "Kubectl не подключается к кластеру. Запустите Minikube."
   exit 1
 fi
 
