@@ -8,15 +8,15 @@ OUTPUT_FILE="$SCRIPT_DIR/audit-extract.json"
 
 # Проверяем наличие audit.log
 if [[ ! -f "$AUDIT_LOG" ]]; then
-    echo "❌ Файл audit.log не найден в $SCRIPT_DIR" >&2
+    echo "Файл audit.log не найден в $SCRIPT_DIR" >&2
     exit 1
 fi
 
 # Очищаем выходной файл
 > "$OUTPUT_FILE"
 
-echo "🔍 Начинаю фильтрацию audit.log из: $AUDIT_LOG"
-echo "📄 Подозрительные события будут записаны в: $OUTPUT_FILE"
+echo "Фильтрация audit.log из: $AUDIT_LOG"
+echo "Отфильтрованные события будут записаны в: $OUTPUT_FILE"
 echo ""
 
 # 1. Доступ к секретам (get или list secrets)
@@ -45,5 +45,5 @@ echo "[+] Поиск: создание RoleBinding"
 jq -r 'select(.objectRef.resource == "rolebindings" and .verb == "create")' "$AUDIT_LOG" >> "$OUTPUT_FILE"
 
 echo ""
-echo "✅ Фильтрация завершена. Проверьте файл: $OUTPUT_FILE"
+echo "Фильтрация завершена. Файл: $OUTPUT_FILE"
 read -p "Нажмите Enter для завершения..."
