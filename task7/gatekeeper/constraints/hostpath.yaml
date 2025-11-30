@@ -1,0 +1,7 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sPSPHostPath
+metadata:
+  name: psp-hostpath
+spec:
+  match:
+    namespaces: ["audit-zone"]
